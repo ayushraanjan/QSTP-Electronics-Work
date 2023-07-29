@@ -1,0 +1,50 @@
+// C++ code
+#include <Servo.h>
+
+Servo myservo;
+
+//DC Motor connections
+int input1 = 4;
+
+int input2 = 3;
+
+int speed_dc = 7;
+
+void setup()
+{
+  pinMode(input1, OUTPUT);
+  
+  pinMode(input2, OUTPUT);
+  
+  pinMode(speed_dc, OUTPUT);
+    
+  myservo.attach(8);
+  
+  myservo.write(0);
+  
+  Serial.begin(9600);
+}
+
+void loop()
+{
+  
+  float sunlight = analogRead(A0);
+  
+  // Calculating the speed of the DC Motor wrt sunlight value from LDR
+  
+  float adjusted_speed = sunlight / 679.00 * 255.00;
+  
+  analogWrite(speed_dc, adjusted_speed);
+  
+  digitalWrite(input1, HIGH);
+  
+  digitalWrite(input2, LOW);
+  
+  // Calculating the position of the Servo Motor
+  
+  float pos = sunlight / 679.00 * 180.0;
+  
+  myservo.write(pos);
+  
+  //Serial.println(adjusted_speed);
+}
